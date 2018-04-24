@@ -57,16 +57,22 @@ Object.prototype.flatten = function() { // return flattened array of all nested 
 }
 
 // CLASSES --------------------------------------------------------------------
-class Card {
+class Player {
   constructor() {
-    this.letter = ALPHABET.random();
-    this.list = this.select();
-    console.log("New card.");
-    this.publish();
+    this.name = null;
+    this.score = 0;
+    console.log("New player.");
   }
 }
 
-class Timer {
+class Presentation {
+  constructor() {
+    this.slides = [];
+    console.log("New presentation.");
+  }
+}
+
+class Clock {
   constructor(seconds = ROUND_DURATION) {
     this.secs = seconds;
     this.id = null;
@@ -114,7 +120,28 @@ class Timer {
   }
 }
 
-class Notification {
+class Game {
+  constructor() {
+    this.players = []; // array of Players
+    this.teams = []; // array of dictionaries? so you can lookup teams[i][player]
+    this.presentations = []; // array of Presentations
+    console.log("New game.");
+  }
+}
+
+class PresentationUI {
+  constructor() {
+    console.log("New presentation user interface.");
+  }
+}
+
+class ScoreboardUI {
+  constructor() {
+    console.log("New scoreboard user interface.");
+  }
+}
+
+class NotificationUI {
   constructor(message, lifetime = undefined) {
     this.message = message;
     this.id = (100000).random().toString();
