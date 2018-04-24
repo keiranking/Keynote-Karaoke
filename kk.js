@@ -5,6 +5,10 @@
 // (https://github.com/keiranking/Anna/blob/master/LICENSE.txt)
 // ────────────────────────────────────────────────────────────
 
+// 1.0 objective:
+// On computers, selects and runs timed presentations with unique codes
+// On phones, prompts user for code and displays relevant wordlist
+
 // GLOBAL CONSTANTS -----------------------------------------------------------
 const ROUND_DURATION = 180;
 
