@@ -1,3 +1,25 @@
+class Presentation {
+	constructor() {
+		this.contents = null;
+		this.pgs = 0;
+		console.log("New presentation.");
+	}
+}
+
+class PresentationUI {
+	constructor() {
+		this.canvas = $('#pdf-canvas').get(0);
+		this.canvasContext = this.canvas.getContext('2d');
+		this.isRenderInProgress = 0;
+		console.log("New presentation user interface.");
+	}
+
+	showPDF(pdf_url) {
+		$('#pdf-loader').show();
+		PDFJS.getDocument({url: pdf_url}).then().catch();
+	}
+}
+
 var __PDF_DOC,
 	__CURRENT_PAGE,
 	__TOTAL_PAGES,
