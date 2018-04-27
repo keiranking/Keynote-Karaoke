@@ -1,25 +1,77 @@
-class Presentation {
+var isLoading = false;
+
+// class Deck {
+// 	constructor(doc = null) {
+// 		this.pdf = doc;
+// 		console.log(this.pdf);
+// 		this.wordlist = [];
+// 		console.log("New Deck.");
+// 	}
+// }
+
+class Game {
 	constructor() {
-		this.contents = null;
-		this.pgs = 0;
-		console.log("New presentation.");
+		this.currentDeck = null;
+		this.ui = new UI();
+		console.log("New Game.");
 	}
+
+	loadDeck() {
+		PDFJS.getDocument('test.pdf').then(function(pdf) {
+				console.log("Loaded test.pdf", pdf);
+		    pdf.getPage(1).then(function(page) {
+					console.log("Loaded page 1", page);
+					this.renderPage(page);
+		    });
+		}).catch(function(err) {
+			console.log("Error loading test.pdf", err.message);
+		});
+		// PDFJS.getDocument({url: pdf_url})
+		// 	.then(function(doc) {
+		// 		this.currentDeck = new Deck(doc);
+		// 		this.showPage(1);
+		// 	})
+		// 	.catch(function(err) {
+		// 		console.log(err.message);
+		// 	});
+	}
+
+	renderPage(page) {
+		var scale = 1;
+		var viewport = page.getViewport(scale);
+		var canvas = document.getElementById('pdf-canvas');
+		var context = canvas.getContext('2d');
+		var renderContext = {
+				canvasContext: context,
+				viewport: viewport
+		};
+		page.render(renderContext);
+	}
+
 }
 
-class PresentationUI {
+class UI {
 	constructor() {
-		this.canvas = $('#pdf-canvas').get(0);
-		this.canvasContext = this.canvas.getContext('2d');
-		this.isRenderInProgress = 0;
-		console.log("New presentation user interface.");
+		// this.canvas = $('#pdf-canvas').get(0);
+		// this.canvasContext = this.canvas.getContext('2d');
+		// this.isRenderInProgress = 0;
+		console.log("New UI.");
 	}
 
-	showPDF(pdf_url) {
-		$('#pdf-loader').show();
-		PDFJS.getDocument({url: pdf_url}).then().catch();
+	renderPage(page) {
+		var scale = 1;
+		var viewport = page.getViewport(scale);
+		var canvas = document.getElementById('pdf-canvas');
+		var context = canvas.getContext('2d');
+		var renderContext = {
+		    canvasContext: context,
+		    viewport: viewport
+		};
+		page.render(renderContext);
 	}
+
 }
-
+/*
 var __PDF_DOC,
 	__CURRENT_PAGE,
 	__TOTAL_PAGES,
@@ -28,23 +80,23 @@ var __PDF_DOC,
 	__CANVAS_CTX = __CANVAS.getContext('2d');
 
 function showPDF(pdf_url) {
-	$("#pdf-loader").show();
+	// $("#pdf-loader").show();
 
 	PDFJS.getDocument({ url: pdf_url }).then(function(pdf_doc) {
 		__PDF_DOC = pdf_doc;
 		__TOTAL_PAGES = __PDF_DOC.numPages;
 
 		// Hide the pdf loader and show pdf container in HTML
-		$("#pdf-loader").hide();
-		$("#pdf-contents").show();
+		// $("#pdf-loader").hide();
+		// $("#pdf-contents").show();
 		$("#pdf-total-pages").text(__TOTAL_PAGES);
 
 		// Show the first page
 		showPage(1);
 	}).catch(function(error) {
 		// If error re-show the upload button
-		$("#pdf-loader").hide();
-		$("#upload-button").show();
+		// $("#pdf-loader").hide();
+		// $("#upload-button").show();
 
 		alert(error.message);
 	});;
@@ -55,11 +107,11 @@ function showPage(page_no) {
 	__CURRENT_PAGE = page_no;
 
 	// Disable Prev & Next buttons while page is being loaded
-	$("#pdf-next, #pdf-prev").attr('disabled', 'disabled');
+	// $("#pdf-next, #pdf-prev").attr('disabled', 'disabled');
 
 	// While page is being rendered hide the canvas and show a loading message
-	$("#pdf-canvas").hide();
-	$("#page-loader").show();
+	// $("#pdf-canvas").hide();
+	// $("#page-loader").show();
 
 	// Update current page in HTML
 	$("#pdf-current-page").text(page_no);
@@ -85,14 +137,17 @@ function showPage(page_no) {
 			__PAGE_RENDERING_IN_PROGRESS = 0;
 
 			// Re-enable Prev & Next buttons
-			$("#pdf-next, #pdf-prev").removeAttr('disabled');
+			// $("#pdf-next, #pdf-prev").removeAttr('disabled');
 
 			// Show the canvas and hide the page loader
-			$("#pdf-canvas").show();
-			$("#page-loader").hide();
+			// $("#pdf-canvas").show();
+			// $("#page-loader").hide();
 		});
 	});
 }
+*/
+g = new Game();
+g.loadDeck();
 
 // Upon click this should should trigger click on the #file-to-upload file input element
 // This is better than showing the not-good-looking file input element
@@ -103,25 +158,28 @@ $("#upload-button").on('click', function() {
 // When user chooses a PDF file
 $("#file-to-upload").on('change', function() {
 	// Validate whether PDF
-    if(['application/pdf'].indexOf($("#file-to-upload").get(0).files[0].type) == -1) {
-        alert('Error : Not a PDF');
-        return;
-    }
-
-	$("#upload-button").hide();
+	const f = $("#file-to-upload").get(0).files[0];
+	console.log(f);
+  if(['application/pdf'].indexOf(f.type) == -1) {
+      alert('Error : Not a PDF');
+      return;
+  }
+	// $("#upload-button").hide();
 
 	// Send the object url of the pdf
-	showPDF(URL.createObjectURL($("#file-to-upload").get(0).files[0]));
+	// const url = URL.createObjectURL(f);
+	// console.log(url);
+	// showPDF(URL.createObjectURL($("#file-to-upload").get(0).files[0]));
 });
 
 // Previous page of the PDF
-$("#pdf-prev").on('click', function() {
-	if(__CURRENT_PAGE != 1)
-		showPage(--__CURRENT_PAGE);
-});
+// $("#pdf-prev").on('click', function() {
+// 	if(__CURRENT_PAGE != 1)
+// 		showPage(--__CURRENT_PAGE);
+// });
 
 // Next page of the PDF
-$("#pdf-next").on('click', function() {
-	if(__CURRENT_PAGE != __TOTAL_PAGES)
-		showPage(++__CURRENT_PAGE);
-});
+// $("#pdf-next").on('click', function() {
+// 	if(__CURRENT_PAGE != __TOTAL_PAGES)
+// 		showPage(++__CURRENT_PAGE);
+// });

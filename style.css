@@ -50,7 +50,7 @@ h1 {
 }
 
 #file-to-upload {
-	display: none;
+	/* display: none; */
 }
 
 #pdf-main-container {
@@ -59,7 +59,7 @@ h1 {
 }
 
 #pdf-loader {
-	display: none;
+	/* display: none; */
 	text-align: center;
 	color: #999999;
 	font-size: 13px;
@@ -68,7 +68,7 @@ h1 {
 }
 
 #pdf-contents {
-	display: none;
+	/* display: none; */
 }
 
 #pdf-meta {
