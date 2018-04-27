@@ -69,10 +69,15 @@ class Player {
   }
 }
 
-class Presentation {
-  constructor() {
-    this.slides = [];
-    console.log("New presentation.");
+class Deck {
+  constructor(n) {
+    this.cover = null;
+    this.pg = [];
+    this.wordlist = [];
+    // get cover image
+    // get page images
+    // get wordlist
+    console.log("New deck.");
   }
 }
 
@@ -126,26 +131,30 @@ class Clock {
 
 class Game {
   constructor() {
+    console.log("Keynote Karaoke");
     this.players = []; // array of Players
-    this.teams = []; // array of dictionaries? so you can lookup teams[i][player]
-    this.presentations = []; // array of Presentations
+    this.numberOfDecks = 1;
+    this.playedDecks = []; // array of integers of played Decks
+    this.activeDeck = 1; // select randomly from unplayed Decks
     console.log("New game.");
+    console.log(this.numberOfDecks + " decks, "
+      + this.players.length + " players.");
   }
 }
 
-class PresentationUI {
+class UI {
   constructor() {
-    console.log("New presentation user interface.");
+    console.log("New UI.");
+    this.deck = null;
+  }
+
+  displayDeck(n) {
+    this.deck = new Deck(n);
+    console.log("Displaying deck", n);
   }
 }
 
-class ScoreboardUI {
-  constructor() {
-    console.log("New scoreboard user interface.");
-  }
-}
-
-class NotificationUI {
+class Notification {
   constructor(message, lifetime = undefined) {
     this.message = message;
     this.id = (100000).random().toString();
@@ -178,3 +187,6 @@ class NotificationUI {
 
 
 // MAIN -----------------------------------------------------------------------
+let g = new Game();
+let ui = new UI();
+ui.displayDeck(g.activeDeck);
