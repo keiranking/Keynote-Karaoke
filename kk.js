@@ -71,11 +71,16 @@ class Player {
 
 class Deck {
   constructor(n) {
-    this.cover = null;
+    const BASE_ADDRESS = '/decks/';
     this.pg = [];
+    for (let i = 0; i <= 2; i++) {
+      let pg = new Image(800, 1024);
+      pg.src = BASE_ADDRESS + n + '/' + i + '.jpg';
+      this.pg.push(pg);
+    }
+    console.log(this.pg);
     this.wordlist = [];
-    // get cover image
-    // get page images
+    // get slide images
     // get wordlist
     console.log("New deck.");
   }
